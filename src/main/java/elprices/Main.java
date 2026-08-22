@@ -4,7 +4,7 @@ package elprices;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     void main() {
-        String test="test3";
-        IO.println(test);
+    ElPriceService service = new ElPriceService();
+        service.fetchPrices();
     }
 }
