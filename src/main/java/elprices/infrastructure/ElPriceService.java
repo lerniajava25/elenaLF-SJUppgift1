@@ -1,4 +1,4 @@
-package elprices;
+package elprices.infrastructure;
 
 //import tools.jackson.databind.ObjectMapper;
 import java.io.IOException;
