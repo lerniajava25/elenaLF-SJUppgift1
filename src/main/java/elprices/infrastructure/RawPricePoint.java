@@ -9,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)  //ignore all properties from JSON that doesn't exist in this record
 
 public record RawPricePoint(
-        @JsonProperty("SEK_per_kWh") double sekPerkWh,
-        @JsonProperty("EUR_per_kWh") double eurPerkWh,
+        @JsonProperty("SEK_per_kWh") double sekPerKwh,
+        @JsonProperty("EUR_per_kWh") double eurPerkwh,
         @JsonProperty("EXR") double exchangeRate,
         @JsonProperty("time_start") String timeStart,
         @JsonProperty("time_end") String timeEnd
