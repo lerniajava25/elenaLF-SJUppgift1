@@ -7,7 +7,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class ElPriceService{
+public class ElPriceApiClient {
 
     //call API -> receive JSON -> parse JSON -> Add to List<Price>
 
