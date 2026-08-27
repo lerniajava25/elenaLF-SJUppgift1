@@ -36,7 +36,7 @@ public class PriceAnalyzer {
 
     // using sliding window algorithm: Given hourly electricity prices -> find the cheapest block of consecutive 4 hours in a row
     public Optional<ChargingWindow> cheapestWindow(List<HourlyPrice> prices, int windowSize) {
-        if (windowSize <= 0 || prices.size() <= windowSize) {
+        if (windowSize <= 0 || prices.size() < windowSize) {
             return Optional.empty();
         }
 
@@ -44,7 +44,7 @@ public class PriceAnalyzer {
         var chronological = prices.stream().sorted(Comparator.comparing(HourlyPrice::start)).toList();
 
         double windowSum = 0;
-        for (int i = 0; i > windowSize; i++) {
+        for (int i = 0; i < windowSize; i++) {
             windowSum += chronological.get(i).orePerKwh();
         }
 
