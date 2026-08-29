@@ -7,7 +7,7 @@ public record PriceStatistics(
         double min,
         double max,
         double average,
-        HourlyPrice CheapestHour,
+        HourlyPrice cheapestHour,
         HourlyPrice priciestHour
 ) {
 }
