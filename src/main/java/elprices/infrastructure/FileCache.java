@@ -26,7 +26,7 @@ public class FileCache {
         this.cacheDir = cacheDir;
     }
 
-        //Create the filename
+        //Create the filenameema
     private Path fileFor(ElectricityArea area, LocalDate date) {
         return cacheDir.resolve("%s_%s.json".formatted(date, area.name())
         );
