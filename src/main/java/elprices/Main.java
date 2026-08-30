@@ -1,17 +1,40 @@
 package elprices;
 
+import elprices.application.PriceRepository;
+import elprices.application.PriceService;
+import elprices.cli.ConsoleApp;
+import elprices.cli.ConsolePresenter;
+import elprices.domain.PriceAnalyzer;
 import elprices.infrastructure.ElPriceApiClient;
-import  java.time.LocalDate;
+import elprices.infrastructure.PriceJsonMapper;
+import elprices.infrastructure.CachingPriceRepository;
+import elprices.infrastructure.FileCache;
+
 import java.net.http.HttpClient;
+import java.nio.file.Path;
+import java.time.Duration;
 
-import static elprices.domain.ElectricityArea.SE1;
-
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     void main() {
-        HttpClient httpClient = HttpClient.newHttpClient();
-        ElPriceApiClient service = new ElPriceApiClient(httpClient);
-       IO.println(service.fetchJson(SE1,  LocalDate.now()));
+
+        //create the http
+        var httpClient = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(10))
+                .build();
+
+        // build infrastructure objects (adapters)
+        var apiClient = new ElPriceApiClient(httpClient);
+        var cache = new FileCache(Path.of("cache"));
+        var mapper = new PriceJsonMapper();
+        PriceRepository repository = new CachingPriceRepository(apiClient, cache, mapper);
+
+        //  build the application + domain
+        var priceService = new PriceService(repository);
+        var analyzer = new PriceAnalyzer();
+
+        // presentation
+        var presenter = new ConsolePresenter();
+// create and run the CLI
+        new ConsoleApp(priceService, analyzer, presenter).run();
     }
 }

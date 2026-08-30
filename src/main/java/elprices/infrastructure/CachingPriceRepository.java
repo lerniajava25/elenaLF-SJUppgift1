@@ -37,4 +37,3 @@ public class CachingPriceRepository implements PriceRepository {
     }
 }
 
-}
