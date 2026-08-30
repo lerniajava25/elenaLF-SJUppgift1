@@ -26,7 +26,7 @@ public class FileCache {
         this.cacheDir = cacheDir;
     }
 
-    // Return the cached JSON if present, otherwise empty.
+    // read first and return the cached JSON if present, otherwise empty.
     public Optional<String> read(ElectricityArea area, LocalDate date) {
         var file = fileFor(area, date);
         if (!Files.exists(file)) {
@@ -37,6 +37,15 @@ public class FileCache {
         } catch (IOException e) {
             // an unreadable cache file should never crash the app, so treat it as a miss and let the caller fetch new data.
             return Optional.empty();
+        }
+    }
+    //JSON ->disk Persists the JSON so the next lookup for this day/area is served from disk.
+    public void write(ElectricityArea area, LocalDate date, String json) {
+        try {
+            Files.createDirectories(cacheDir);
+            Files.writeString(fileFor(area, date), json, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new UncheckedIOException("Kunde inte skriva cache-filen.", e);
         }
     }
 
