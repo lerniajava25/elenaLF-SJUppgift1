@@ -1,10 +1,10 @@
 package elprices;
 
 import elprices.application.PriceRepository;
-import elprices.application.PriceService;
+import elprices.services.PriceService;
 import elprices.cli.ConsoleApp;
 import elprices.cli.ConsolePresenter;
-import elprices.domain.PriceAnalyzer;
+import elprices.services.PriceAnalyzer;
 import elprices.infrastructure.ElPriceApiClient;
 import elprices.infrastructure.PriceJsonMapper;
 import elprices.infrastructure.CachingPriceRepository;

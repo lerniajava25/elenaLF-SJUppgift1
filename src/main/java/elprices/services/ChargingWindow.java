@@ -1,4 +1,6 @@
-package elprices.domain;
+package elprices.services;
+
+import elprices.domain.HourlyPrice;
 
 import java.time.OffsetDateTime;
 import java.util.List;
