@@ -1,10 +1,10 @@
 package elprices.cli;
 
-import elprices.application.PriceService;
+import elprices.services.PriceService;
 import elprices.application.PriceUnavailableException;
 import elprices.domain.ElectricityArea;
 import elprices.domain.HourlyPrice;
-import elprices.domain.PriceAnalyzer;
+import elprices.services.PriceAnalyzer;
 
 import java.util.List;
 import java.util.function.Consumer;

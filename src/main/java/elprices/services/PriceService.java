@@ -1,5 +1,6 @@
-package elprices.application;
+package elprices.services;
 
+import elprices.application.PriceRepository;
 import elprices.domain.ElectricityArea;
 import elprices.domain.HourlyPrice;
 
@@ -25,7 +26,7 @@ public class PriceService {
         return repository.pricesFor(area, LocalDate.now(SWEDEN));
     }
 
-    // Hourly prices for an exact date for testing or extending the menu. */
+    // Hourly prices for an exact date for testing or extending the menu.
     public List<HourlyPrice> pricesFor(ElectricityArea area, LocalDate date) {
         return repository.pricesFor(area, date);
     }

@@ -3,7 +3,7 @@ package elprices.cli;
 import elprices.domain.ElectricityArea;
 import elprices.domain.HourlyPrice;
 import elprices.domain.PriceStatistics;
-import elprices.domain.ChargingWindow;
+import elprices.services.ChargingWindow;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;

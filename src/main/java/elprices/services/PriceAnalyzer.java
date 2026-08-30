@@ -1,4 +1,7 @@
-package elprices.domain;
+package elprices.services;
+import elprices.domain.HourlyPrice;
+import elprices.domain.PriceStatistics;
+
 import java.util.List;
 import java.util.Comparator;
 import java.util.Optional;
