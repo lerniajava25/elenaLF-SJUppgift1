@@ -26,7 +26,21 @@ public class FileCache {
         this.cacheDir = cacheDir;
     }
 
-        //Create the filenameema
+    // Return the cached JSON if present, otherwise empty.
+    public Optional<String> read(ElectricityArea area, LocalDate date) {
+        var file = fileFor(area, date);
+        if (!Files.exists(file)) {
+            return Optional.empty();
+        }
+        try {
+            return Optional.of(Files.readString(file, StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            // an unreadable cache file should never crash the app, so treat it as a miss and let the caller fetch new data.
+            return Optional.empty();
+        }
+    }
+
+      //Create the filenam
     private Path fileFor(ElectricityArea area, LocalDate date) {
         return cacheDir.resolve("%s_%s.json".formatted(date, area.name())
         );
