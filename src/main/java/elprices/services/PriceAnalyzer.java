@@ -1,4 +1,5 @@
 package elprices.services;
+
 import elprices.domain.HourlyPrice;
 import elprices.domain.PriceStatistics;
 
@@ -70,6 +71,7 @@ public class PriceAnalyzer {
 
         return Optional.of(new ChargingWindow(start, end, bestSum / windowSize, window));
     }
+
     private static void requireNonEmpty(List<HourlyPrice> prices) {
         if (prices == null || prices.isEmpty()) {
             throw new IllegalArgumentException("No prices to analyze.");

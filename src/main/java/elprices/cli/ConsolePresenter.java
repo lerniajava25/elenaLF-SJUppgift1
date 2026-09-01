@@ -39,34 +39,34 @@ public class ConsolePresenter {
     }
 
     // presenting the sorted prices from the PriceAnalyzer.
-        public void sorted (List < HourlyPrice > sortedPrices) {
-            IO.println();
-            IO.println("Priser sorterade lägst → högst:");
-            var rank = 1;
-            for (var price : sortedPrices) {
-                IO.println("%2d. kl %s   %s".formatted(rank++, price.label(), ore(price.orePerKwh())));
-            }
-        }
-
-        //
-        public void chargingWindow (ChargingWindow window){
-            IO.println();
-            IO.println("Bästa laddningstid (%d h): kl %s-%s".formatted(
-                    window.hours().size(), window.start().format(HOUR), window.end().format(HOUR)));
-            IO.println("Snittpris under fönstret: %s".formatted(ore(window.averageOre())));
-        }
-
-        public void info (String message){
-            IO.println(message);
-        }
-
-        public void error (String message){
-            IO.println("-  " + message);
-        }
-
-//formatting the Öre to be consistance with the swedish decimal formating
-        private String ore ( double value){
-            return String.format(ConsolePresenter.SV, "%.2f öre/kWh", value);
+    public void sorted(List<HourlyPrice> sortedPrices) {
+        IO.println();
+        IO.println("Priser sorterade lägst → högst:");
+        var rank = 1;
+        for (var price : sortedPrices) {
+            IO.println("%2d. kl %s   %s".formatted(rank++, price.label(), ore(price.orePerKwh())));
         }
     }
+
+    //
+    public void chargingWindow(ChargingWindow window) {
+        IO.println();
+        IO.println("Bästa laddningstid (%d h): kl %s-%s".formatted(
+                window.hours().size(), window.start().format(HOUR), window.end().format(HOUR)));
+        IO.println("Snittpris under fönstret: %s".formatted(ore(window.averageOre())));
+    }
+
+    public void info(String message) {
+        IO.println(message);
+    }
+
+    public void error(String message) {
+        IO.println("-  " + message);
+    }
+
+    //formatting the Öre to be consistance with the swedish decimal formating
+    private String ore(double value) {
+        return String.format(ConsolePresenter.SV, "%.2f öre/kWh", value);
+    }
+}
 

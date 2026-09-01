@@ -1,4 +1,5 @@
 package elprices.domain;
+
 import java.util.Optional;
 
 public enum ElectricityArea {
@@ -12,7 +13,8 @@ public enum ElectricityArea {
     ElectricityArea(String description) {
         this.description = description;
     }
-    public String description(){
+
+    public String description() {
         return description;
     }
 
@@ -29,11 +31,11 @@ public enum ElectricityArea {
         var normalized = input.trim().toUpperCase();
 
         if (normalized.matches("[1-4]")) {
-            normalized= "SE" + normalized;
+            normalized = "SE" + normalized;
         }
-        for (var area:values()){
-            if (area.name().equals(normalized)){
-            return Optional.of(area);
+        for (var area : values()) {
+            if (area.name().equals(normalized)) {
+                return Optional.of(area);
             }
         }
         return Optional.empty();

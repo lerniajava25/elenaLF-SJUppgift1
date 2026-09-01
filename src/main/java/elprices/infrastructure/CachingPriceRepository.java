@@ -7,7 +7,7 @@ import elprices.domain.HourlyPrice;
 import java.time.LocalDate;
 import java.util.List;
 
- // Gets electricity prices. checks if the data is already saved in a local file: 1-yes: the file is used. 2- no: the data is downloaded from the API and saved so it can be reused next time.
+// Gets electricity prices. checks if the data is already saved in a local file: 1-yes: the file is used. 2- no: the data is downloaded from the API and saved so it can be reused next time.
 
 public class CachingPriceRepository implements PriceRepository {
 
@@ -24,6 +24,7 @@ public class CachingPriceRepository implements PriceRepository {
         this.cache = cache;
         this.mapper = mapper;
     }
+
     @Override
     public List<HourlyPrice> pricesFor(ElectricityArea area, LocalDate date) {
         var cached = cache.read(area, date);
