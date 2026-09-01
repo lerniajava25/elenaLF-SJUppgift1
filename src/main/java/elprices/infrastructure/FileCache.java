@@ -39,6 +39,7 @@ public class FileCache {
             return Optional.empty();
         }
     }
+
     //JSON ->disk Persists the JSON so the next lookup for this day/area is served from disk.
     public void write(ElectricityArea area, LocalDate date, String json) {
         try {
@@ -49,7 +50,7 @@ public class FileCache {
         }
     }
 
-      //Create the filenam
+    //Create the filenam
     private Path fileFor(ElectricityArea area, LocalDate date) {
         return cacheDir.resolve("%s_%s.json".formatted(date, area.name())
         );

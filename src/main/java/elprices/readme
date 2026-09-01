@@ -1,0 +1,68 @@
+## Implementation och reflektion
+
+Projektet är ett konsolbaserat Java-program som hämtar elpriser från ett API och analyserar priserna för Sveriges fyra elområden. Programmet kan bland annat visa lägsta, högsta och genomsnittliga pris, sortera priser och hitta de billigaste sammanhängande timmarna för laddning.
+
+samt implementerade jag även cachning till disk. När elpriser hämtas från API:et sparas den råa JSON-datan lokalt i en fil. Filnamnet baseras på datum och elområde, exempelvis:
+
+
+När samma datum och elområde efterfrågas igen kontrollerar programmet först om filen redan finns. Om den finns läses JSON-datan från filen i stället för att ett nytt nätverksanrop görs. Om filen inte finns hämtas datan från API:et och sparas därefter på disk.
+
+För detta använder jag `java.nio.file.Files` tillsammans med bland annat `Files.exists()`, `Files.readString()`, `Files.writeString()` och `Files.createDirectories()`.
+
+
+Programmet är uppdelat i flera lager för att separera olika ansvarsområden:
+
+- Domain innehåller modeller och logik för bland annat elområden, timpriser, prisstatistik och beräkning av den billigaste sammanhängande laddningstiden.
+- Application fungerar som ett mellanlager mellan användargränssnittet och datakällan.
+- Infrastructure ansvarar för kommunikationen med API och konverteringen av JSON-data till objekt som programmet kan arbeta med.
+- CLI ansvarar för konsolmenyn, användarens input och presentation av resultaten.
+- Main skapar och kopplar ihop programmets olika delar.
+
+Programmet kan välja elområde, visa lägsta, högsta och genomsnittliga elpris, sortera dygnets priser från lägst till högst samt hitta de fyra sammanhängande timmar som har lägst genomsnittligt pris.
+
+För kommunikationen med API använder jag Javas HttpClient. JSON-svaret läses med Jackson och omvandlas sedan till programmets egna HourlyPrice-objekt. Prisberäkningarna görs separat i PriceAnalyzer.
+
+
+### Java jämfört med JavaScript
+
+Jag upplever att Java kräver mer struktur och mer kod än JavaScript för den här typen av uppgift. I Java behöver man vara tydligare med datatyper, exceptions och hur olika klasser och interfaces hör ihop. Till en början gjorde det implementationen lite mer komplicerad jämfört med JavaScript.
+
+I JavaScript, framför allt med Node.js, hade filhanteringen kunnat göras ganska kort med exempelvis `fs.readFile()` och `fs.writeFile()`. JavaScript känns därför ofta snabbare när man vill göra en enkel implementation.
+
+Samtidigt tycker jag att Java gör det lättare att hålla en större applikation strukturerad. I det här projektet kunde filhanteringen ligga i en egen klass och resten av programmet behöver inte känna till exakt hur filerna läses eller sparas. Det gör också koden tydligare när projektet växer.
+
+Jag upplever därför Java som mer omständligt i början än JavaScript, men samtidigt mer strikt och strukturerat. JavaScript ger större frihet och gör att man ofta kan skriva samma funktionalitet med mindre kod, medan Java hjälper till att skapa en tydligare struktur mellan olika delar av programmet.
+
+
+## Källor:
+
+### Min absolut främsta källa, som jag har utgått från genom stora delar av projektet, är *Java: The Complete Reference, Thirteenth Edition – Comprehensive Coverage of the Java Language*. Jag läste stora delar av boken under min föräldraledighet och har använt den som grund för att förstå många av de Java-koncept som jag använder i projektet.
+
+Några av de viktigaste områdena från boken som jag har haft nytta av i projektet är **objektorienterad programmering (OOP), klasser och objekt, interfaces, enums, records, collections och generics**. Jag har även läst om **lambda-uttryck, Streams och Optional**, vilket har hjälpt mig att förstå hur man kan bearbeta och hantera data på ett mer modernt sätt i Java.
+
+Andra delar som varit relevanta är **exception handling**, **filhantering och I/O**, bland annat hur Java kan läsa och skriva filer, samt användningen av **`java.nio.file`**. Detta blev särskilt relevant när jag implementerade cachningen till disk i projektet.
+
+Jag har också haft nytta av bokens genomgång av **datum och tid, metoder, constructors, access modifiers, static/final, packages och separation av ansvar mellan olika klasser**. Flera av dessa koncept har jag sedan försökt tillämpa praktiskt när jag byggde upp projektets struktur, exempelvis genom att separera domänlogik, services, repository och infrastruktur.
+
+Boken har därför inte bara varit en källa för en specifik del av uppgiften, utan mer som en grundläggande referens för Java genom hela projektet.
+
+
+### Oracle Java Documentation – `java.nio.file.Files`
+
+Jag använde Javas officiella dokumentation för `java.nio.file.Files` för att förstå hur filer kan kontrolleras, läsas och skrivas. Dokumentationen beskriver bland annat `Files.readString()`, `Files.writeString()` och `Files.createDirectories()`. `readString()` läser innehållet i en fil till en `String`, medan `writeString()` kan skapa eller skriva över en fil. `createDirectories()` kan användas för att skapa cache-mappen om den inte redan finns.
+
+[https://www.baeldung.com/java-file-directory-exists]
+Källa: [Oracle Java Documentation – Files](https://docs.oracle.com/search/?q=nio&lang=en&category=java&product=en%2Fjava%2Fjavase%2F26/)Detta är den officiella API-dokumentationen för Java och därför en primär källa för hur `java.nio.file.Files` ska användas.
+
+## Hur cachningen fungerar
+
+Flödet för cachningen är:
+
+1. Programmet skapar ett filnamn utifrån valt datum och elområde.
+2. Programmet kontrollerar om motsvarande fil redan finns i cache-mappen.
+3. Om filen finns läses JSON-datan från filen.
+4. Om filen inte finns görs ett nätverksanrop till API:et.
+5. JSON-svaret sparas på disk.
+6. Nästa gång samma datum och område efterfrågas används den sparade filen i stället för API:et.
+
+Syftet är att undvika onödiga nätverksanrop och samtidigt uppfylla kravet att tidigare hämtad data ska kunna återanvändas lokalt.

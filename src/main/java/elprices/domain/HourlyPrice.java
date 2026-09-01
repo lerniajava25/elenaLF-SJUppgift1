@@ -6,12 +6,12 @@ import java.time.OffsetDateTime;
 
 public record HourlyPrice(OffsetDateTime start, double orePerKwh) {
 
-    public int hour(){
+    public int hour() {
         return start.getHour();
     }
 
     // for formating
-    public String label(){
+    public String label() {
         return "%02d–%02d".formatted(hour(), (hour() + 1) % 24); // eg, "13 - 14" o'cklock
     }
 
